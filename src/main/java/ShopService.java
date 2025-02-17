@@ -21,4 +21,11 @@ public class ShopService {
 
         return orderRepo.addOrder(newOrder);
     }
+
+    public List<Order> getOrdersByStatus(EnumOrderStatus status)
+    {
+        List<Order> currentOrderList = orderRepo.getOrders().stream().filter(order -> order.orderStatus().equals(status)).toList();
+        System.out.println(currentOrderList.toString());
+        return currentOrderList;
+    }
 }
