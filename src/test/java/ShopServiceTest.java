@@ -1,13 +1,14 @@
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class ShopServiceTest {
 
     @Test
-    void addOrderTest() {
+    void addOrderTest() throws Exception{
         //GIVEN
         ShopService shopService = new ShopService();
         List<String> productsIds = List.of("1");
@@ -22,20 +23,15 @@ class ShopServiceTest {
     }
 
     @Test
-    void addOrderTest_whenInvalidProductId_expectNull() {
+    public void addOrderTest_whenExpectionThrown()
+    {
         //GIVEN
         ShopService shopService = new ShopService();
-        List<String> productsIds = List.of("1", "2");
-
-        //WHEN
-        Order actual = shopService.addOrder(productsIds);
-
-        //THEN
-        assertNull(actual);
+        assertThrows(NoSuchElementException.class, () -> shopService.addOrder(List.of("2")));
     }
 
     @Test
-    void orderStatusTest_whenOrder_expectListOfOrderStatus() {
+    void orderStatusTest_whenOrder_expectListOfOrderStatus() throws Exception {
         //GIVEN
         ShopService shopService = new ShopService();
         List<String> productsIds = List.of("1");
@@ -49,5 +45,6 @@ class ShopServiceTest {
         assertNotEquals(listOrders.get(0).orderStatus(), expected.orderStatus());
         assertNotNull(expected.id());
     }
+
 
 }
