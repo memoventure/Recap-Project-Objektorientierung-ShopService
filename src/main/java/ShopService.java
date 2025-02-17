@@ -8,7 +8,7 @@ public class ShopService {
     private ProductRepo productRepo = new ProductRepo();
     private OrderRepo orderRepo = new OrderMapRepo();
 
-    public Order addOrder(List<String> productIds) throws Exception {
+    public Order addOrder(List<String> productIds) throws NoSuchElementException {
         List<Product> products = new ArrayList<>();
         for (String productId : productIds) {
             Optional<Product> productToOrder = productRepo.getProductById(productId);
@@ -28,5 +28,12 @@ public class ShopService {
         List<Order> currentOrderList = orderRepo.getOrders().stream().filter(order -> order.orderStatus().equals(status)).toList();
         System.out.println(currentOrderList.toString());
         return currentOrderList;
+    }
+
+    public void updateOrder(String givenID, EnumOrderStatus givenStatus)
+    {
+        Order oldOrder = orderRepo.getOrderById(givenID);
+        orderRepo.removeOrder(givenID);
+        orderRepo.addOrder(oldOrder.withOrderStatus(givenStatus));
     }
 }

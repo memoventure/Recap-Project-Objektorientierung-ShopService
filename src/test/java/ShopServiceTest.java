@@ -46,5 +46,23 @@ class ShopServiceTest {
         assertNotNull(expected.id());
     }
 
+    @Test
+    void updateOrderTest_whenOrderStatusCompletetd() throws NoSuchElementException {
+        //GIVEN
+        ShopService shopService = new ShopService();
+        List<String> productsIds = List.of("1");
+
+        //WHEN
+        Order actual = shopService.addOrder(productsIds);
+        shopService.updateOrder(actual.id(), EnumOrderStatus.COMPLETED);
+
+        //THEN
+        Order expected = new Order("-1", List.of(new Product("1", "Apfel")), EnumOrderStatus.COMPLETED);
+        List<Order> currentOrderList = shopService.getOrdersByStatus(EnumOrderStatus.COMPLETED);
+        assertEquals(currentOrderList.get(0).orderStatus(), expected.orderStatus());
+    }
+
+
+
 
 }
